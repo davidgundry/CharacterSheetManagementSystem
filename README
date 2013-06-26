@@ -1,0 +1,75 @@
+---------------------------------------------------
+---------------------------------------------------
+        Character Sheet Management System
+     A system for helping to manage small LARPs.
+     
+                  David Gundry
+               david.gundry.co.uk
+---------------------------------------------------
+---------------------------------------------------
+
+Contents:
+1. License
+2. Installation Instructions
+
+---------------------------------------------------
+1. License
+---------------------------------------------------
+
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org/>
+
+
+---------------------------------------------------
+2. Installation Instructions
+---------------------------------------------------
+
+2.1. Customise variables for your game and your database.
+
+	header.php
+		$NAME		- the name of your LARP system
+		$TAGLINE	- a custom tag-line
+		$admin_email	- the email address for your ref team
+
+	dbconnect.php
+		$mysqluser	- the details for the user account on your SQL server the CSMS is to use
+		$mysqlpassword
+		$mysqldatabase	- the name of the database to store the csms data
+		
+	install.php
+		$script_path	- this is where the csms.sql file is located in your filesystem
+
+		
+2.2. Create a database on your sql server with the same name as in $mysqldatabase.
+		
+2.3. Copy all files onto your webserver. Configure the webroot to be the inner folder named 'csms'.
+
+2.4. Visit the install.php file with a web browser. This will configure the database, and provide you with a user account (username: admin, password: password)
+
+2.5. Delete the install.php file.
+
+2.6. Log in and change the admin user password.
+
+2.7. Installation Complete! Now you can go and setup your skill system, post news, and activate new user accounts.

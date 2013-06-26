@@ -1,0 +1,253 @@
+$footerheight: 70px;
+$headerheight: 70px;
+
+html
+{
+  height:100%;
+}
+
+body
+{
+	background-color:#aaf;
+	font-size:14px;
+	margin: 0;
+	height: 100%;
+}
+
+h1
+{	
+	color: #000;
+	font-size: 20px;
+}
+
+h2
+{
+	color: #000;
+	font-size: 16px;
+}
+
+h3
+{
+	color: #000;
+	font-size: 17px;
+}
+
+a
+{
+	color: #333;
+	&:hover
+	{
+		color: blue;
+	}
+}
+
+img
+{
+	border: none;
+}
+
+.edit-link
+{
+	float:right;
+	margin: 1em;
+}
+
+textarea
+{
+	width: 90%;
+	height: 30em;
+}
+
+.smalltextarea
+{
+	width: 90%;
+	height: 6em;
+}
+
+table
+{
+	width: 100%;
+}
+
+tr
+{
+	background-color: lightgrey;
+
+	&:hover {
+		background-color: #eee;
+	}
+}
+
+th
+{
+	font-weight: bold;
+	text-align: center;
+	&:hover{
+		background-color: lightgrey;
+	}
+}
+
+.table-heading
+{
+  	font-weight: bold;
+	text-align: center;
+	&:hover{
+		background-color: lightgrey;
+	}
+}
+
+@mixin shadow($radius)
+{
+  	-moz-box-shadow: $radius $radius $radius #888;
+	-webkit-box-shadow: $radius $radius $radius #888;
+	box-shadow: $radius $radius $radius #888;
+}
+
+#headbar
+{
+	position: fixed;
+		top:0;
+		left: 0;
+		right: 0;
+
+
+	background-color: white;
+	text-align: right;
+	
+	@include shadow(10px);
+	
+	p {
+	      float: left;
+	      margin: 0;
+	      padding: 2px;
+	}
+      
+	ul {
+	      margin: 2px 5px 0 0;
+	  
+	}
+
+	li {
+	      display: inline;
+	      padding: 0 10px;
+	      border-left: 1px solid black;
+	}
+}
+
+
+/* MAIN CONTENT */
+
+#container
+{
+	width: 795px;
+	padding-bottom:-$footerheight;
+	min-height: 100%;
+		
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	
+	background-color: white;
+	
+	$border: 1px solid black;
+	border-left: $border;
+	border-right: $border;
+}
+
+@mixin rounded($radius)
+{
+  	border: 1px solid white;
+	-moz-border-radius: $radius;	
+	border-radius: $radius;
+}
+
+@mixin banner
+{
+	background-color: #ddd;
+	text-align: center;
+}
+
+
+#header
+{
+  	@include banner;
+	height: $headerheight;
+}
+
+#content
+{
+	position: realtive;
+	padding: 20px;
+	background-color: white;
+	padding-bottom: $footerheight;
+}
+
+@mixin textgroup
+{
+	background-color: lightgray;
+	padding: 0 10px;
+	margin: 5px 5px;
+	
+	@include rounded(10px);
+	@include shadow(5px);
+	padding: 10px;
+	margin: 5px 5px;
+	
+	h2 {
+		margin: 0;
+	}
+	
+	.title {
+		display: block;
+		font-size: 14px;
+		font-weight: bold;
+	}
+}
+
+.time
+{
+	font-style: italic;
+}
+
+.newsitem
+{
+	background-color: #ddd;
+	@include rounded(7px);
+	margin-bottom: 10px;
+	padding: 0 10px;
+  
+
+}
+
+.floatingbox
+{
+	@include textgroup;
+	width: 390px;
+	float: right;
+}
+
+/* FOOTER */
+
+#footer
+{
+	height: $footerheight;
+  	clear: both;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	@include banner;
+}
+
+.error
+{
+  @include textgroup;
+  background-color: yellow;
+}
+
+
+.notification
+{
+  @include textgroup;
+  background-color: lightblue;
+}
