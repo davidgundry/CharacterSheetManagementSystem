@@ -57,9 +57,6 @@ For more information, please refer to <http://unlicense.org/>
 		$mysqluser	- the details for the user account on your SQL server the CSMS is to use
 		$mysqlpassword
 		$mysqldatabase	- the name of the database to store the csms data
-		
-	install.php
-		$script_path	- this is the absolute path to where the csms.sql file is located in your filesystem
 
 		
 2.2. Create a database on your sql server with the same name as in $mysqldatabase.

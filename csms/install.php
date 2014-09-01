@@ -2,7 +2,7 @@
  
 	include "../dbconnect.php";
 	  
-	$script_path = '/';
+	$script_path = dirname(getcwd()) . '/csms.sql';
 	  
 	$command = 'mysql'
 		. ' --host=' . $mysqlhost
@@ -11,8 +11,6 @@
 		. ' --database=' . $mysqldatabase
 		. ' --execute="SOURCE ' . $script_path .'"';
 	$output = shell_exec($command);
-
-
 	
 	$pass = md5("password");
 	$query = "INSERT INTO `users` (`username` ,`password` ,`email` ,`active`, `admin` ) VALUES ('admin', '$pass', '', '1', '1');";
