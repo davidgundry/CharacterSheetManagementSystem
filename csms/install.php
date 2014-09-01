@@ -2,15 +2,14 @@
  
 	include "../dbconnect.php";
 	  
-	$script_path = '/var/www/csms/csms/csms.sql"';
+	$script_path = '/';
 	  
 	$command = 'mysql'
 		. ' --host=' . $mysqlhost
 		. ' --user=' . $mysqluser
 		. ' --password=' . $mysqlpassword
 		. ' --database=' . $mysqldatabase
-		. ' --execute="SOURCE ' . $script_path
-	;
+		. ' --execute="SOURCE ' . $script_path .'"';
 	$output = shell_exec($command);
 
 
@@ -20,7 +19,5 @@
 	$result = mysql_query($query);
 
 	header("location:index.php");
-	
-	echo $command;
 ?>
 	<p>You should now be directed to <a href="index.php">index.php</a></p>
