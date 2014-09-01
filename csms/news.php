@@ -1,9 +1,8 @@
 <?php 
 	$PAGENAME = "News Manager";
 	$PAGETITLE= "Make a news post";
-	include "../header.php";
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 	if ($user['admin'] != 1)
 	{
@@ -11,18 +10,24 @@
 		die();
 	}
 
-	if ($_GET['a'] == "del")
+	if (isset($_GET['a']))
 	{
-		$query = "DELETE FROM news WHERE uid='".intval($_GET['uid'])."';";
-	  	$result = mysql_query($query);
-	}
+		if ($_GET['a'] == "del")
+		{
+			$query = "DELETE FROM news WHERE uid='".intval($_GET['uid'])."';";
+			$result = mysql_query($query);
+		}
 
-	if ($_GET['a'] == "add")
-	{
-		$_POST = sanitize($_POST);
-		$query = "INSERT INTO news SET title='".$_POST['title']."', news='".$_POST['content']."';";
-	  	$result = mysql_query($query);
+		if ($_GET['a'] == "add")
+		{
+			$_POST = sanitize($_POST);
+			$query = "INSERT INTO news SET title='".$_POST['title']."', news='".$_POST['content']."';";
+			$result = mysql_query($query);
+		}
 	}
+	
+	include "../header.php";
+	include "../menu.php";
 
 ?>
 

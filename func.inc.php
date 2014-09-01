@@ -13,6 +13,7 @@ function cleanInput($input) {
 }
 
 function sanitize($input) {
+$output = "";
     if (is_array($input)) {
         foreach($input as $var=>$val) {
             $output[$var] = sanitize($val);

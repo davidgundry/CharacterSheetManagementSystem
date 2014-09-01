@@ -2,7 +2,7 @@
  
 	include "../dbconnect.php";
 	  
-	$script_path = '/var/www/tak/csms/csms.sql"';
+	$script_path = '/var/www/csms/csms/csms.sql"';
 	  
 	$command = 'mysql'
 		. ' --host=' . $mysqlhost
@@ -13,11 +13,14 @@
 	;
 	$output = shell_exec($command);
 
-	echo $command;
+
 	
 	$pass = md5("password");
 	$query = "INSERT INTO `users` (`username` ,`password` ,`email` ,`active`, `admin` ) VALUES ('admin', '$pass', '', '1', '1');";
 	$result = mysql_query($query);
 
 	header("location:index.php");
+	
+	echo $command;
 ?>
+	<p>You should now be directed to <a href="index.php">index.php</a></p>

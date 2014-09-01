@@ -1,9 +1,8 @@
 <?php 
 	$PAGENAME = "Downtime";
 	$PAGETITLE= "Compose your downtime";
-	include "../header.php";
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 	$uid = intval($_GET['uid']);
 	$query = "SELECT * FROM `downtime` WHERE `uid`='".$uid."';";
@@ -104,6 +103,10 @@
 	    mysql_query($query);
 	    header("location:?uid=".$downtime['uid']);
 	}
+	
+	include "../header.php";
+	include "../menu.php";
+	
 	echo "<h2>Downtime</h2>";
 	echo "<p><a href='player.php?uid=". $downtime['player'] ."'>".$IMGUSER." ".$tehplayer['username']."</a><br /><a href='character.php?uid=". $downtime['character'] ."'>".$IMGCHAR."".$tehcharacter['name'] ."</a><br />Created: ".$downtime['time'] ."</p>";
 

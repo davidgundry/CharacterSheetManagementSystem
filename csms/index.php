@@ -1,7 +1,7 @@
 <?php
   $PAGENAME = "index.php";
   $PAGETITLE = "Login to see your Character Sheet";
-  include "../header.php"; 
+
   include "../func.inc.php"; 
 
 	/* If the user failed to log in, we don't want to try again */
@@ -41,14 +41,15 @@
 		}
 	}
 
-?>
-<?php
+
 	/* If the user failed to log in, tell them about it. */
 	if (isset($_GET['error']))
 		print("<div class='error'><span class='title'>Login Failed</span>There is no active user who matches the username and password supplied. You may get this error if you account has not yet been enabled by an administrator, or has been deactivated.</div>");
 	if (isset($_GET['logout']))
 		print("<div class='notification'><span class='title'>Logged Out</span>You have been logged out of the Character Sheet Management System. Log in again to see your characters.</div>");
 		
+		
+  include "../header.php"; 
 ?>
 
 	<div class='floatingbox'>

@@ -1,8 +1,9 @@
 <?php 
   	$PAGENAME = "Character Sheets";
   	$PAGETITLE= "Your user details";
-	include "../header.php";
 	include "../func.inc.php";
+	include "../session.php";
+	include "../header.php";
 	include "../menu.php";
 
 	/* Sanitize all $_GET input. */
@@ -16,25 +17,28 @@
 
 	if ($user['admin'] == 1)
 	{
-		if ($_GET['a'] == "hide")
+		if (isset($_GET['a']))
 		{
-			$query = "UPDATE users_characters SET visible='0' WHERE user = '". $_GET['uid'] ."' AND character_record='".$_GET['char']."' ";
-		  	$result = mysql_query($query);
-		}
+			if ($_GET['a'] == "hide")
+			{
+				$query = "UPDATE users_characters SET visible='0' WHERE user = '". $_GET['uid'] ."' AND character_record='".$_GET['char']."' ";
+				$result = mysql_query($query);
+			}
 
-		if ($_GET['a'] == "show")
-		{
-			$query = "UPDATE users_characters SET visible='1' WHERE user = '". $_GET['uid'] ."' AND character_record='".$_GET['char']."' ";
-		  	$result = mysql_query($query);
-		}
+			if ($_GET['a'] == "show")
+			{
+				$query = "UPDATE users_characters SET visible='1' WHERE user = '". $_GET['uid'] ."' AND character_record='".$_GET['char']."' ";
+				$result = mysql_query($query);
+			}
 
-		if ($_GET['a'] == "disassociate")
-		{
-			$query = "DELETE FROM users_characters WHERE user = '". $_GET['uid'] ."' AND character_record='".$_GET['char']."' ";
-		  	$result = mysql_query($query);
+			if ($_GET['a'] == "disassociate")
+			{
+				$query = "DELETE FROM users_characters WHERE user = '". $_GET['uid'] ."' AND character_record='".$_GET['char']."' ";
+				$result = mysql_query($query);
+			}
 		}
 	}
-
+	
   	if (($user['admin'] == 1) and (isset($_GET['uid'])))
 	{
 	  	$query = "SELECT * FROM users WHERE uid = '" . $_GET['uid'] ."'";

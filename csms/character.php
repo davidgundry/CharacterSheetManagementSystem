@@ -1,9 +1,8 @@
 <?php 
 	$PAGENAME = "Character Sheet";
 	$PAGETITLE= "View your character sheet";
-	include "../header.php";
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 if ($user['admin'] == 1)
 	{
@@ -61,7 +60,10 @@ if ($user['admin'] == 1)
 		}
 
 	}
-
+	
+  include "../header.php";
+  include "../menu.php";
+	
   $query = "SELECT uid FROM users_characters WHERE user = '" . $_SESSION['user'] . "' AND character_record = '". $_GET['uid'] ."' AND visible = '1' ";
   $result = mysql_query($query);
 

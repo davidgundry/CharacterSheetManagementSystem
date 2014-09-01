@@ -1,9 +1,8 @@
 <?php 
 	$PAGENAME = "Associate Character Sheets";
 	$PAGETITLE= $PAGENAME;
-	include "../header.php";
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 	
 	if ($user['admin'] != 1)
 	{
@@ -16,17 +15,19 @@
 		$_POST = sanitize($_POST);
 		$_GET = sanitize($_GET);
 		
-		$assc_user = $_GET['user'];
-		$assc_char = $_GET['char'];
+		if (isset($_GET['user']))
+		  $assc_user = $_GET['user'];
+		if (isset($_GET['char']))
+		  $assc_char = $_GET['char'];
 
-		if ((isset($_POST['usersel'])) and (isset($_POST['charsel'])))
-		{
-			$userid = intval($_POST['usersel']);
-			$character_record = intval($_POST['charsel']);
-			$query = "INSERT INTO `users_characters` (`user` ,`character_record`, `visible`) VALUES ('$userid', '$character_record', '0');";
-			$result = mysql_query($query);
-			header("location:character.php?uid=$character_record");
-		}
+		  if ((isset($_POST['usersel'])) and (isset($_POST['charsel'])))
+		  {
+			  $userid = intval($_POST['usersel']);
+			  $character_record = intval($_POST['charsel']);
+			  $query = "INSERT INTO `users_characters` (`user` ,`character_record`, `visible`) VALUES ('$userid', '$character_record', '0');";
+			  $result = mysql_query($query);
+			  header("location:character.php?uid=$character_record");
+		  }
 	}
 	else
 	{
@@ -34,7 +35,8 @@
 	}
 
 
-
+	include "../header.php";
+	include "../menu.php";
 ?>
 	<p>This will associate a particular user with a particular character. The character sheet will be associated with that user (but by default will be invisible).</p>
 	<p>A user can have many associated character sheets, and a single character can be associated with many users.</p>

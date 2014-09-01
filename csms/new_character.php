@@ -1,9 +1,8 @@
 <?php 
 	$PAGETITLE= "Create a new character";
 	$PAGENAME= "Create Character";
-	include "../header.php";
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 if ((isset($_POST['name'])) and (isset($_POST['sheet'])))
 {
@@ -18,10 +17,10 @@ if ((isset($_POST['name'])) and (isset($_POST['sheet'])))
 
 	$name = $_POST['name'];
 	$sheet = $_POST['sheet'];
-	$query = "INSERT INTO `characters` (`uid`, `name`, `sheet`, `skill1`,`skill8`, `skill2`,`skill28`,`skill29`,`skill32`,`skill35`,`skill38`,`skill39`,`skill42`,`skill43`,`skill44`,`skill45`,`skill71`,`skill93`,`skill94`,`skill70`,`skill40`,`skill68`,`skill48`) VALUES (NULL, '$name', '$sheet', '2','2','1','2','1','1','1','1','1','2','1','1','1','2','1','1','1','1','1','1');";
+	$query = "INSERT INTO `characters` (`uid`,`name`,`sheet`) VALUES (NULL,'$name','$sheet');";
 	$result = mysql_query($query);
-    $character_record = mysql_insert_id();
-	echo $query;
+	$character_record = mysql_insert_id();
+
 
 	if (isset($_POST['user']) and ($_POST['user'] != ''))
 	{
@@ -33,6 +32,9 @@ if ((isset($_POST['name'])) and (isset($_POST['sheet'])))
 	else
 		header("location:player_list.php");
 }
+
+  include "../header.php";
+  include "../menu.php";
 ?>
 
 <form action="new_character.php" method="post">

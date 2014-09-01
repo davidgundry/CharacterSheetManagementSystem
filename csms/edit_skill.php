@@ -1,9 +1,9 @@
 <?php 
 	$PAGENAME = "Edit Skill";
 	$PAGETITLE= "Edit the details of a skill";
-	include "../header.php";
+
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 	if ($user['admin'] != 1)
 	{
@@ -26,6 +26,9 @@
 		header("location:skills.php");
 	}
 
+	include "../header.php";
+	include "../menu.php";
+	
 ?>
 		<?php
 			$query = "SELECT * FROM skills where uid='$uid' LIMIT 1";

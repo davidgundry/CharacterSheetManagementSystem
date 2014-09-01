@@ -1,9 +1,9 @@
 <?php 
 	$PAGENAME = "Skills Manager";
 	$PAGETITLE= "Add and update skills";
-	include "../header.php";
+
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 	if ($user['admin'] != 1)
 	{
@@ -21,24 +21,29 @@
 	}
 
 	/* Handle Admin actions */
-	if ($_GET['a'] == "add")
+	if (isset($_GET['a']))
 	{
-		$query = "INSERT INTO `skills` (`name` ,`description` ,`order`) VALUES ('New Skill', '', '1000');";
-	  	$result = mysql_query($query);
+		if ($_GET['a'] == "add")
+		{
+			$query = "INSERT INTO `skills` (`name` ,`description` ,`order`) VALUES ('New Skill', '', '1000');";
+			$result = mysql_query($query);
 
-		$u = mysql_insert_id();
+			$u = mysql_insert_id();
 
-		$editCharacters = "ALTER TABLE `characters` ADD `skill".$u."` BOOLEAN NOT NULL;";
-		$result = mysql_query($editCharacters);
-		header("location:edit_skill.php?uid=".$u);
+			$editCharacters = "ALTER TABLE `characters` ADD `skill".$u."` BOOLEAN NOT NULL;";
+			$result = mysql_query($editCharacters);
+			header("location:edit_skill.php?uid=".$u);
+		}
+
+		if ($_GET['a'] == "edit")
+		{
+			$uid= intval($_GET['uid']);
+			header("location:edit_skill.php?uid=$uid");
+		}
 	}
 
-	if ($_GET['a'] == "edit")
-	{
-		$uid= intval($_GET['uid']);
-		header("location:edit_skill.php?uid=$uid");
-	}
-
+  include "../header.php";
+  include "../menu.php";
 ?>
 
 <h2>List of skills</h2>

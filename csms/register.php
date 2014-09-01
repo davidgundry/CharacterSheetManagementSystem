@@ -1,8 +1,10 @@
 <?php
   $PAGENAME = "Register";
   $PAGETITLE= "Register an account";
-  include "../header.php"; 
   include "../func.inc.php";
+  include "../session.php";
+  include "../header.php";
+  include "../menu.php";
 
   /* Need to connect to db for sanitization function to work.
      Then sanitize username and email or die with an error. */

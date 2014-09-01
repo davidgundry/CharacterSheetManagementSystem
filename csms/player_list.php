@@ -1,9 +1,8 @@
 <?php 
 	$PAGENAME = "Administration Panel";
 	$PAGETITLE = "Manage users and characters";
-	include "../header.php";
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
 
 	if ($user['admin'] != 1)
 	{
@@ -21,34 +20,40 @@
 	}
 
 	/* Handle Admin actions */
-	if ($_GET['a'] == "deactivate")
+	if (isset($_GET['a']))
 	{
-		$query = "UPDATE users SET active='0' WHERE uid='".$_GET['uid']."' ";
-	  	$result = mysql_query($query);
+		if ($_GET['a'] == "deactivate")
+		{
+			$query = "UPDATE users SET active='0' WHERE uid='".$_GET['uid']."' ";
+			$result = mysql_query($query);
+		}
+
+		if ($_GET['a'] == "activate")
+		{
+			$query = "UPDATE users SET active='1' WHERE uid='".$_GET['uid']."' ";
+			$result = mysql_query($query);
+		}
+
+		if ($_GET['a'] == "delete")
+		{
+			$query = "DELETE FROM users WHERE uid='".$_GET['uid']."' ";
+			$result = mysql_query($query);
+			$query = "DELETE FROM users_characters WHERE user='".$_GET['uid']."' ";
+			$result = mysql_query($query);
+		}
+
+		if ($_GET['a'] == "delchar")
+		{
+			$query = "DELETE FROM characters WHERE uid='".$_GET['charid']."' ";
+			$result = mysql_query($query);
+			$query = "DELETE FROM users_characters WHERE character_record='".$_GET['charid']."' ";
+			$result = mysql_query($query);
+		}
 	}
 
-	if ($_GET['a'] == "activate")
-	{
-		$query = "UPDATE users SET active='1' WHERE uid='".$_GET['uid']."' ";
-	  	$result = mysql_query($query);
-	}
-
-	if ($_GET['a'] == "delete")
-	{
-		$query = "DELETE FROM users WHERE uid='".$_GET['uid']."' ";
-	  	$result = mysql_query($query);
-		$query = "DELETE FROM users_characters WHERE user='".$_GET['uid']."' ";
-	  	$result = mysql_query($query);
-	}
-
-	if ($_GET['a'] == "delchar")
-	{
-		$query = "DELETE FROM characters WHERE uid='".$_GET['charid']."' ";
-		$result = mysql_query($query);
-		$query = "DELETE FROM users_characters WHERE character_record='".$_GET['charid']."' ";
-	  	$result = mysql_query($query);
-	}
-
+		include "../header.php";
+		include "../menu.php";
+	
 ?>
 
 <h2>Active Users</h2>

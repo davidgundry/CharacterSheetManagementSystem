@@ -1,9 +1,10 @@
 <?php 
 	$PAGENAME = "Downtimes Manager";
 	$PAGETITLE= "Manage submitted downtimes";
-	include "../header.php";
+
 	include "../func.inc.php";
-	include "../menu.php";
+	include "../session.php";
+
 
 	if ($user['admin'] != 1)
 	{
@@ -11,9 +12,12 @@
 		die();
 	}
 
-	/* Sanitize GET input */
+	/* Sanitize GET and POST input */
 	if (function_exists('sanitize'))
+	{
 		$_GET = sanitize($_GET);
+		$_POST = sanitize($_POST);
+	}
 	else
 	{
 		print "<p>Server Error.</p>";
@@ -21,12 +25,16 @@
 	}
 
 	/* Handle Admin actions */
-	if ($_GET['a'] == "deactivate")
+	if (isset($_GET['a']))
 	{
-		$query = "UPDATE users SET active='0' WHERE uid='".$_GET['uid']."' ";
-	  	$result = mysql_query($query);
+		if ($_GET['a'] == "deactivate")
+		{
+			$query = "UPDATE users SET active='0' WHERE uid='".$_GET['uid']."' ";
+			$result = mysql_query($query);
+		}
 	}
 
+	/* Update submission deadline if set */
 	if (isset($_POST['deadline']))
 	{
 	    $timestamp = $_POST['deadline'];
@@ -34,6 +42,7 @@
 	    mysql_query($query);
 	}
 
+	/* Update return deadline if set */
 	if (isset($_POST['returndeadline']))
 	{
 	    $timestamp = $_POST['returndeadline'];
@@ -41,15 +50,17 @@
 	    mysql_query($query);
 	}
 
+	/* Get deadlines from database */
+	$query = "SELECT UNIX_TIMESTAMP(`downtimedeadline`) as ddeadline, UNIX_TIMESTAMP(`returndeadline`) as rdeadline FROM `csms_settings` WHERE uid = '1';";
+	$result = mysql_query($query);
+	$row = mysql_fetch_array($result);
+	$deadline = $row['ddeadline'];
+	$returndeadline = $row['rdeadline'];
+    
+    	include "../header.php";
+	include "../menu.php";
 ?>
 
-<?php 
-    $query = "SELECT UNIX_TIMESTAMP(`downtimedeadline`) as ddeadline, UNIX_TIMESTAMP(`returndeadline`) as rdeadline FROM `csms_settings` WHERE uid = '1';";
-    $result = mysql_query($query);
-    $row = mysql_fetch_array($result);
-    $deadline = $row['ddeadline'];
-    $returndeadline = $row['rdeadline'];
-?>
 <div class='floatingbox'>
 	<h2>Downtime Deadlines</h2>
 		<form action="downtime_list.php" method="post">
