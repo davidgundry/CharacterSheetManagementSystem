@@ -4,16 +4,22 @@
 	include "../func.inc.php";
 	include "../session.php";
 
+if (!isset($_GET['uid']))
+{
+	header("location:player.php");
+}
+	
 if ($user['admin'] == 1)
 	{
 		if (function_exists('sanitize'))
 		{
-			if ((isset($_POST['name'])) and (isset($_POST['sheet'])))
+			if ((isset($_POST['name'])) and (isset($_POST['sheet'])) and isset($_POST['refnotes']))
 			{
 				$name = sanitize($_POST['name']);
 				$sheet =  sanitize($_POST['sheet']);
+				$refnotes = sanitize($_POST['refnotes']);
 				$uid = intval($_POST['uid']);
-				$query = "UPDATE characters SET name='".$name."', sheet='".$sheet."' WHERE uid = '" . $uid . "'";
+				$query = "UPDATE characters SET name='".$name."', sheet='".$sheet."', refnotes='".$refnotes."' WHERE uid = '" . $uid . "'";
 				$result = mysql_query($query);
 				header("location:character.php?uid=".$uid);
 			}
@@ -126,8 +132,10 @@ if ($user['admin'] == 1)
 			/* Display options to change things if you are an admin */
 			if ($user['admin'] == 1)
 			{
+				echo "<hr /><h2>Notes about this Character</h2>";
+				echo "<p>".$character['refnotes']."</p>";
 				/* List all those players the character is associated with */
-				echo "<hr /><h2>Players associated with this Character</h2>";
+				echo "<h2>Players associated with this Character</h2>";
 				echo "<a href='associate.php?char=".$character['uid']."' title='Associate this character to a player'>".$IMGCHARASSOCIATE." Associate to new player</a>";
 				/* get user ids ('user') which are associated with the character */
 				$query2 = "SELECT * FROM users_characters WHERE character_record = '" . $character['uid'] ."'";
@@ -158,15 +166,17 @@ if ($user['admin'] == 1)
 				echo "<h2>Update Character Sheet</h2><form action='character.php' method='post'>
 				<p>Character Name: <input type='text' name='name' value=\"" . $character['name'] ."\"></p>
 				<textarea name='sheet' rows=30 cols=50>" . $character['sheet'] ."</textarea>
+				<h3>Ref Notes</h3>
+				<textarea  class='smalltextarea' name='refnotes' rows=5 cols=50>" . $character['refnotes'] ."</textarea>
 				<input type='hidden' name='uid' value='" . $_GET['uid'] ."'>
 				<p><input type='submit' value='Update'></p>
 				</form>";
 
-				echo "<table><tr class='table-heading'><th>Skill Name</th><th>Teaser Description</th><th>Skill Description</th><th>Ref Notes</th></tr>";
+				echo "<h3>Skills</h3><table><tr class='table-heading'><th>Skill Name</th><th>Teaser Description</th><th>Skill Description</th><th>Cost</th><th>Prerequisites</th><th>Ref Notes</th></tr>";
 				$allskills = mysql_query("SELECT * FROM skills ORDER BY `order`");
 				while($skill = mysql_fetch_array($allskills))
 				{
-					echo "<tr id='skill".$skill['uid']."'><td>".$IMGSKILL." ".$skill['name']."</td><td>".$skill['teaser']."</td><td>".$skill['description']."</td><td>".$skill['refnotes']."</td>";
+					echo "<tr id='skill".$skill['uid']."'><td>".$IMGSKILL." ".$skill['name']."</td><td>".$skill['teaser']."</td><td>".$skill['description']."</td><td>".$skill['cost']."</td><td>".$skill['prerequisites']."</td><td>".$skill['refnotes']."</td>";
 					if ($character['skill'.$skill['uid']]  == '0')
 						echo "<td><a href='?uid=".$character['uid']."&showskill=".$skill['uid']."#skill".$skill['uid']."'>".$IMGSKILLCHECK." Show </a></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 					else if ($character['skill'.$skill['uid']]  == '1')
@@ -181,43 +191,46 @@ if ($user['admin'] == 1)
 			}
 
 			/* Show players their downtimes */
-			$query = "SELECT * FROM downtime WHERE `character` = '" . $character['uid'] . "' AND handled = '0'";
-  			$result = mysql_query($query);
-
-			echo "<h2>Pending Downtimes</h2><table><tr class='table-heading'><th>Date</th><th>Downtime</td></tr>";
-			while ($downtime = mysql_fetch_array($result))
+			if ($DOWNTIMESENABLED)
 			{
-				echo "<tr><td><a href='downtime.php?uid=".$downtime['uid']."'>".$IMGDOWNTIMEPENDING." ".$downtime['time']."</a></td><td>". substr($downtime['downtime'], 0, 100)."...</td><td>";
-				if (!$downtime['locked'])
-				    echo " <a href='downtime.php?uid=".$downtime['uid']."'>".$IMGDOWNTIMEADD." Edit</a></td>";
-				echo "</tr>";
+				$query = "SELECT * FROM downtime WHERE `character` = '" . $character['uid'] . "' AND handled = '0'";
+				$result = mysql_query($query);
+
+				echo "<h2>Pending Downtimes</h2><table><tr class='table-heading'><th>Date</th><th>Downtime</td></tr>";
+				while ($downtime = mysql_fetch_array($result))
+				{
+					echo "<tr><td><a href='downtime.php?uid=".$downtime['uid']."'>".$IMGDOWNTIMEPENDING." ".$downtime['time']."</a></td><td>". substr($downtime['downtime'], 0, 100)."...</td><td>";
+					if (!$downtime['locked'])
+					    echo " <a href='downtime.php?uid=".$downtime['uid']."'>".$IMGDOWNTIMEADD." Edit</a></td>";
+					echo "</tr>";
+				}
+
+				echo "</table>";
+				if (mysql_num_rows($result) == 0)
+				    echo "<a href='downtime.php?a=new&char=".$character['uid']."'>".$IMGDOWNTIMEADD." New Downtime</a>";
+
+				$query = "SELECT * FROM downtime WHERE `character` = '" . $character['uid'] . "' AND handled = '1' AND greenlight='2'";
+				$result = mysql_query($query);
+
+				echo "<h2>Processed Downtimes</h2><table><tr class='table-heading'><th>Date</th><th>Downtime</th><th>Response</th></tr>";
+				while ($downtime = mysql_fetch_array($result))
+				{
+					echo "<tr><td><a href='downtime.php?uid=".$downtime['uid']."'>".$IMGDOWNTIME." ".$downtime['time']."</a></td><td>".substr($downtime['downtime'], 0, 100)."...</td><td>".substr($downtime['response'], 0, 100)."...</td></tr>";
+				}
+
+				echo "</table>";
 			}
-
-			echo "</table>";
-			if (mysql_num_rows($result) == 0)
-			    echo "<a href='downtime.php?a=new&char=".$character['uid']."'>".$IMGDOWNTIMEADD." New Downtime</a>";
-
-			$query = "SELECT * FROM downtime WHERE `character` = '" . $character['uid'] . "' AND handled = '1' AND greenlight='2'";
-  			$result = mysql_query($query);
-
-			echo "<h2>Processed Downtimes</h2><table><tr class='table-heading'><th>Date</th><th>Downtime</th><th>Response</th></tr>";
-			while ($downtime = mysql_fetch_array($result))
-			{
-				echo "<tr><td><a href='downtime.php?uid=".$downtime['uid']."'>".$IMGDOWNTIME." ".$downtime['time']."</a></td><td>".substr($downtime['downtime'], 0, 100)."...</td><td>".substr($downtime['response'], 0, 100)."...</td></tr>";
-			}
-
-			echo "</table>";
 		}  
 	}
 	else
 	{
 		/* If we couldn't find the character, apologise. */
-		echo "<div class='error'><span class='title>Missing Character</span>This character doesn't appear to exist. Something has gone wrong somewhere. Sorry about that.</div>";
+		echo "<div class='error'><span class='title'>Missing Character</span>This character doesn't appear to exist. Something has gone wrong somewhere. Sorry about that.</div>";
 	}
   }
   else
   {
-	echo "<div class='error><span class='title'>Permission Error</span>You do not have permission to view that character.</div>";
+	echo "<div class='error'><span class='title'>Permission Error</span>You do not have permission to view that character.</div>";
   }
 
 			echo "</div>";

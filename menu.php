@@ -81,7 +81,8 @@
 			{
 				echo "<li><a href='news.php' title='Add or delete news posts'>".$IMGNEWS."News</a></li>";
 				echo "<li><a href='skills.php' title='Add or edit skills'>".$IMGSKILL."Skills Manager</a></li>";
-				echo "<li><a href='downtime_list.php' title='Read and reply to submitted downtimes'>".$IMGDOWNTIME."Downtimes Manager</a></li>";
+				if ($DOWNTIMESENABLED)
+					echo "<li><a href='downtime_list.php' title='Read and reply to submitted downtimes'>".$IMGDOWNTIME."Downtimes Manager</a></li>";
 				echo "<li><a href='player_list.php' title='List of players and characters'>".$IMGUSER."Administration Panel</a></li>";
 			}
 		?>

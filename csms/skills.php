@@ -25,7 +25,7 @@
 	{
 		if ($_GET['a'] == "add")
 		{
-			$query = "INSERT INTO `skills` (`name` ,`description` ,`order`) VALUES ('New Skill', '', '1000');";
+			$query = "INSERT INTO `skills` (`name` ,`description` ,`order`,`cost`,`prerequisites`) VALUES ('New Skill', '', '1000','0','None');";
 			$result = mysql_query($query);
 
 			$u = mysql_insert_id();
@@ -54,10 +54,10 @@
 <?php
   	$query = "SELECT * FROM skills ORDER BY `order`";
   	$result = mysql_query($query);
-	echo "<tr class='table-heading'><th>Name</th><th>Teaser</th><th>Description</th><th>Ref Notes</th><th>Order</th></tr>";
+	echo "<tr class='table-heading'><th>Name</th><th>Teaser</th><th>Description</th><th>Cost</th><th>Prerequisites</th><th>Ref Notes</th><th>Order</th></tr>";
 	while($row = mysql_fetch_array($result))
 	{
-		echo "<tr><td><a href='?a=edit&amp;uid=".$row['uid']."' title='This will allow you to edit this skill.'>".$IMGSKILL."" . $row['name'] . "</a></td><td>" . $row['teaser'] . "</td><td>" . $row['description'] . "</td><td>" . $row['refnotes'] . "</td><td>" . $row['order'] . "</td><td><a href='?a=edit&amp;uid=".$row['uid']."' title='This will allow you to edit this skill.'>".$IMGSKILLEDIT."Edit</a></td></tr>";
+		echo "<tr><td><a href='?a=edit&amp;uid=".$row['uid']."' title='This will allow you to edit this skill.'>".$IMGSKILL."" . $row['name'] . "</a></td><td>" . $row['teaser'] . "</td><td>" . $row['description'] . "</td><td>" . $row['cost'] . "</td><td>" . $row['prerequisites'] . "</td><td>" . $row['refnotes'] . "</td><td>" . $row['order'] . "</td><td><a href='?a=edit&amp;uid=".$row['uid']."' title='This will allow you to edit this skill.'>".$IMGSKILLEDIT."Edit</a></td></tr>";
 	}
 
 ?>

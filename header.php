@@ -6,6 +6,7 @@
 
 	$NAME = "Awesome Game";
 	$TAGLINE = "Character Sheet Management System";
+	$DOWNTIMESENABLED = true;
 	$admin_email = "awesomegamerefs@awesome.game";
 
 ?>

@@ -51,6 +51,7 @@ For more information, please refer to <http://unlicense.org/>
 	header.php
 		$NAME		- the name of your LARP system
 		$TAGLINE	- a custom tag-line
+		$DOWNTIMESENABLED [true/false] - enable or disable the downtime management system
 		$admin_email	- the email address for your ref team
 
 	dbconnect.php

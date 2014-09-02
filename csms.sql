@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `sheet` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `refnotes` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=0 ;
 
@@ -49,6 +50,8 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `order` int(11) NOT NULL,
   `teaser` text COLLATE utf8_unicode_ci NOT NULL,
   `refnotes` text COLLATE utf8_unicode_ci NOT NULL,
+  `cost` int(11) NOT NULL,
+  `prerequisites` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=0 ;
 

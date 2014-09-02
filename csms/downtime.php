@@ -4,17 +4,20 @@
 	include "../func.inc.php";
 	include "../session.php";
 
-	$uid = intval($_GET['uid']);
-	$query = "SELECT * FROM `downtime` WHERE `uid`='".$uid."';";
-	$result = mysql_query($query);
-	$downtime = mysql_fetch_array($result);
+	if (isset($_GET['uid']))
+	{
+		$uid = intval($_GET['uid']);
+		$query = "SELECT * FROM `downtime` WHERE `uid`='".$uid."';";
+		$result = mysql_query($query);
+		$downtime = mysql_fetch_array($result);
 
-				$queryplayer = "SELECT uid, username FROM users WHERE uid='".$downtime['player']."' ";
-		  		$resultplayer = mysql_query($queryplayer);
-				$tehplayer = mysql_fetch_array($resultplayer);
-				$querycharacter = "SELECT name FROM characters WHERE uid='".$downtime['character']."' ";
-		  		$resultcharacter = mysql_query($querycharacter);
-				$tehcharacter = mysql_fetch_array($resultcharacter);	
+		$queryplayer = "SELECT uid, username FROM users WHERE uid='".$downtime['player']."' ";
+		$resultplayer = mysql_query($queryplayer);
+		$tehplayer = mysql_fetch_array($resultplayer);
+		$querycharacter = "SELECT name FROM characters WHERE uid='".$downtime['character']."' ";
+		$resultcharacter = mysql_query($querycharacter);
+		$tehcharacter = mysql_fetch_array($resultcharacter);
+	}
 
 
 

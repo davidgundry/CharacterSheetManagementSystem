@@ -40,7 +40,7 @@
 			}
 		}
 	}
-
+  include "../header.php"; 
 
 	/* If the user failed to log in, tell them about it. */
 	if (isset($_GET['error']))
@@ -49,7 +49,7 @@
 		print("<div class='notification'><span class='title'>Logged Out</span>You have been logged out of the Character Sheet Management System. Log in again to see your characters.</div>");
 		
 		
-  include "../header.php"; 
+
 ?>
 
 	<div class='floatingbox'>

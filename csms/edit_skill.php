@@ -11,17 +11,20 @@
 		die();
 	}
 
-	$uid = intval($_GET['uid']);
+	if (isset($_GET['uid']))
+		$uid = intval($_GET['uid']);
 
 	if (isset($_POST['name']))
 	{
 		$uidpost = intval($_POST['uid']);
 		$order = intval($_POST['order']);
+		$cost = intval($_POST['cost']);
 		$name = sanitize($_POST['name']);
 		$teaser = sanitize($_POST['teaser']);
 		$desc = sanitize($_POST['desc']);
 		$refnotes = sanitize($_POST['refnotes']);
-		$query = "UPDATE `skills` SET `name` = '".$name."', `description` = '".$desc."', `order` = '".$order."', `teaser`='".$teaser."', `refnotes`='".$refnotes."' WHERE `uid` = '".$uidpost."';";
+		$prerequisites = sanitize($_POST['prerequisites']);
+		$query = "UPDATE `skills` SET `name` = '".$name."', `description` = '".$desc."', `order` = '".$order."', `teaser`='".$teaser."', `refnotes`='".$refnotes."', `cost` = '".$cost."', `prerequisites` = '".$prerequisites."' WHERE `uid` = '".$uidpost."';";
 		$result = mysql_query($query);
 		header("location:skills.php");
 	}
@@ -45,6 +48,8 @@
 					echo "Name:<input name='name' type='text' value='" . $row['name'] . "' /><br />";
 					echo "Teaser:<br /><textarea class='smalltextarea' rows='10' cols='10' name='teaser'>". $row['teaser'] . "</textarea><br />";
 					echo "Description:<br /><textarea class='smalltextarea' rows='10' cols='10' name='desc'>". $row['description'] . "</textarea><br />";
+					echo "Cost: <input name='cost' type='text' value='" . $row['cost'] . "' /><br />";
+					echo "Prerequisites:<br /><textarea class='smalltextarea' rows='10' cols='10' name='prerequisites'>". $row['prerequisites'] . "</textarea><br />";
 					echo "Ref Notes:<br /><textarea class='smalltextarea' rows='10' cols='10' name='refnotes'>". $row['refnotes'] . "</textarea></p>";
 			}	  		
 		?> 
