@@ -22,7 +22,7 @@ if ((isset($_POST['name'])) and (isset($_POST['sheet'])))
 	$character_record = mysql_insert_id();
 
 
-	if (isset($_POST['user']) and ($_POST['user'] != ''))
+	if (isset($_POST['user']) and (intval($_POST['user']) > 0))
 	{
 		$userid = $_POST['user'];
 		$query = "INSERT INTO `users_characters` (`user` ,`character_record`) VALUES ('$userid', '$character_record');";
